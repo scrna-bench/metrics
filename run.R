@@ -28,11 +28,19 @@ parser$add_argument(
   dest = "cluster_path", type = "character",
   help = "cluster tsv path", required = TRUE
 )
+parser$add_argument(
+  "--data.clusters_truth",
+  dest = "clusters_truth_path", type = "character",
+  help = "clusters_truth tsv path", required = TRUE
+)
 
 args <- parser$parse_args()
 
 clusters <- read.csv(args$cluster_path, sep = "\t")
+clusters_truth <- read.csv(args$clusters_truth_path, sep = "\t")
 metrics_path <- file.path(args$output_dir, paste0(args$name, ".metrics.json"))
+
+clusters <- merge(clusters, clusters_truth, by = "cell_id", all.x = TRUE)
 
 metrics <- list(
   ari = list(leiden = NA_real_, louvain = NA_real_),
