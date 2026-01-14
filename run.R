@@ -41,8 +41,8 @@ metrics <- list(
 
 metrics$timings <- fromJSON(args$timings_path)
 
-metrics$ari$leiden <- adjustedRandIndex(metrics$truths, metrics$leiden)
-metrics$ari$louvain <- adjustedRandIndex(metrics$truths, metrics$louvain)
+metrics$ari$leiden <- adjustedRandIndex(clusters$truths, clusters$leiden)
+metrics$ari$louvain <- adjustedRandIndex(clusters$truths, clusters$louvain)
 
 write_json(
   metrics, metrics_path,
