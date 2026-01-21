@@ -44,6 +44,7 @@ clusters <- merge(clusters, clusters_truth, by = "cell_id", all.x = TRUE)
 
 metrics <- list(
   ari = list(leiden = NA_real_, louvain = NA_real_),
+  n_clusters = list(leiden = NA_integer_, louvain = NA_integer_),
   timings = NULL
 )
 
@@ -51,6 +52,8 @@ metrics$timings <- fromJSON(args$timings_path)
 
 metrics$ari$leiden <- adjustedRandIndex(clusters$truths, clusters$leiden)
 metrics$ari$louvain <- adjustedRandIndex(clusters$truths, clusters$louvain)
+metrics$n_clusters$leiden <- length(unique(na.omit(clusters$leiden)))
+metrics$n_clusters$louvain <- length(unique(na.omit(clusters$louvain)))
 
 write_json(
   metrics, metrics_path,
