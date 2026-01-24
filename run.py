@@ -53,8 +53,11 @@ def main():
     metrics_path = args.output_dir / f"{args.name}.metrics.json"
 
     clusters = pd.read_csv(args.cluster_path, sep="\t")
-    truths = pd.read_csv(args.clusters_truth_path, sep="\t")
+    truths = pd.read_csv(args.clusters_truth_path, sep="\t").dropna(subset=["truths"])
     merged = clusters.merge(truths, on="cell_id", how="inner")
+
+    # number of cells dropped due to no truth label
+    n_dropped_rows = len(merged) - len(clusters)
 
     truth_labels = merged["truths"]
     leiden_labels = merged["leiden"]
@@ -76,6 +79,7 @@ def main():
             "leiden": clusters["leiden"].nunique(),
             "louvain": clusters["louvain"].nunique(),
         },
+        "dropped_cells": n_dropped_rows,
         "timings": timings,
     }
 
