@@ -57,7 +57,7 @@ def main():
     merged = clusters.merge(truths, on="cell_id", how="inner")
 
     # number of cells dropped due to no truth label
-    n_dropped_rows = len(merged) - len(clusters)
+    n_dropped_rows = len(clusters) - len(merged)
 
     truth_labels = merged["truths"]
     leiden_labels = merged["leiden"]
