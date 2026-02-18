@@ -60,6 +60,13 @@ def main():
         required=True,
     )
     parser.add_argument(
+        "--resolutions.json",
+        dest="resolutions_path",
+        help="resolutions json path",
+        type=Path,
+        required=True,
+    )
+    parser.add_argument(
         "--cluster.tsv",
         dest="cluster_path",
         help="cluster tsv path",
@@ -103,6 +110,9 @@ def main():
     with args.timings_path.open() as handle:
         timings = json.load(handle)
 
+    with args.resolutions_path.open() as handle:
+        resolutions = json.load(handle)
+
     metrics = {
         "agreement": {
             key: {
@@ -124,6 +134,7 @@ def main():
         },
         "dropped_cells": n_dropped_rows,
         "timings": timings,
+        "resolutions": resolutions,
     }
 
     with metrics_path.open("w") as handle:
