@@ -53,28 +53,28 @@ def main():
         required=True,
     )
     parser.add_argument(
-        "--timings.json",
+        "--methods.timings",
         dest="timings_path",
         help="timings json path",
         type=Path,
         required=True,
     )
     parser.add_argument(
-        "--resolutions.json",
+        "--methods.resolutions",
         dest="resolutions_path",
         help="resolutions json path",
         type=Path,
         required=True,
     )
     parser.add_argument(
-        "--cluster.tsv",
+        "--methods.clusters",
         dest="cluster_path",
         help="cluster tsv path",
         type=Path,
         required=True,
     )
     parser.add_argument(
-        "--pca.tsv",
+        "--methods.pca",
         dest="pca_path",
         help="pca tsv path",
         type=Path,
