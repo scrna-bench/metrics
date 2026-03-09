@@ -34,6 +34,14 @@ METRIC_MAP = {
 }
 
 
+def safe_structure_score(fn, X, labels):
+    n_labels = labels.nunique(dropna=True)
+
+    if len(labels) < 2 or n_labels < 2:
+        return float("nan")
+    return fn(X, labels)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Benchmarking entrypoint")
     parser.add_argument(
@@ -123,8 +131,8 @@ def main():
         },
         "structure": {
             key: {
-                "leiden": fn(pca_matrix, merged_pca["leiden"]),
-                "louvain": fn(pca_matrix, merged_pca["louvain"]),
+                "leiden": safe_structure_score(fn, pca_matrix, merged_pca["leiden"]),
+                "louvain": safe_structure_score(fn, pca_matrix, merged_pca["louvain"]),
             }
             for key, fn in METRIC_MAP["structure"].items()
         },
