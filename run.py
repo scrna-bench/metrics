@@ -3,6 +3,7 @@
 import argparse
 import json
 from pathlib import Path
+from typing import Callable, SupportsFloat
 
 import pandas as pd
 from sklearn.metrics import (
@@ -17,7 +18,11 @@ from sklearn.metrics import (
     v_measure_score,
 )
 
-METRIC_MAP = {
+
+MetricFn = Callable[..., SupportsFloat]
+
+
+METRIC_MAP: dict[str, dict[str, MetricFn]] = {
     "agreement": {
         "ari": adjusted_rand_score,
         "nmi": normalized_mutual_info_score,
@@ -34,7 +39,9 @@ METRIC_MAP = {
 }
 
 
-def safe_structure_score(fn, X, labels):
+def safe_structure_score(
+    fn: MetricFn, X: pd.DataFrame, labels: pd.Series
+) -> SupportsFloat:
     n_labels = labels.nunique(dropna=True)
 
     if len(labels) < 2 or n_labels < 2:
