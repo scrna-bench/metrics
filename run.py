@@ -75,9 +75,9 @@ def main():
         required=True,
     )
     parser.add_argument(
-        "--methods.resolutions",
-        dest="resolutions_path",
-        help="resolutions json path",
+        "--methods.clustering_info",
+        dest="clustering_info_path",
+        help="clustering info json path",
         type=Path,
         required=True,
     )
@@ -125,8 +125,8 @@ def main():
     with args.timings_path.open() as handle:
         timings = json.load(handle)
 
-    with args.resolutions_path.open() as handle:
-        resolutions = json.load(handle)
+    with args.clustering_info_path.open() as handle:
+        clustering_info = json.load(handle)
 
     metrics = {
         "agreement": {
@@ -149,7 +149,7 @@ def main():
         },
         "dropped_cells": n_dropped_rows,
         "timings": timings,
-        "resolutions": resolutions,
+        "clustering_info": clustering_info,
     }
 
     with metrics_path.open("w") as handle:
